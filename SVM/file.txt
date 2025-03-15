@@ -1,0 +1,30 @@
+work of openCV in this code:-
+
+In Streamlit app, OpenCV (cv2) is used for image preprocessing before passing it to the trained SVM model. 
+Let's break down its role:
+
+🔹 OpenCV (cv2) Usage in our Code
+📌 1. Reading the Uploaded Image
+When a user uploads a digit image, OpenCV reads it into a NumPy array:
+
+file_bytes = np.asarray(bytearray(image.read()), dtype=np.uint8)
+img = cv2.imdecode(file_bytes, cv2.IMREAD_GRAYSCALE)
+🔹 cv2.imdecode() converts the raw bytes into an OpenCV grayscale image.
+
+📌 2. Resizing the Image to Match the Dataset Format
+The load_digits dataset in sklearn has 8×8 images, so we resize the uploaded image accordingly:
+img = cv2.resize(img, (8, 8))
+🔹 This ensures that the image dimensions match the SVM model input.
+
+📌 3. Normalizing Pixel Values
+The digits dataset in sklearn represents pixel intensity between 0-16, so we transform the uploaded image accordingly:
+img = 16 - (img // 16)
+🔹 This converts pixel values from 0-255 (grayscale) to 0-16, matching the training dataset.
+
+📌 4. Displaying the Preprocessed Image in Streamlit
+st.image(img, caption="Resized Image", width=150)
+🔹 This allows users to see the processed 8×8 image before prediction.
+
+🚀 Final Thought
+OpenCV acts as a bridge between raw uploaded images and the trained SVM model 
+by ensuring the correct format, size, and pixel range before making predictions.
